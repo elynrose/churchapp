@@ -57,25 +57,78 @@
                 </ul>
             </li>
         @endcan
-        @if(file_exists(app_path('Http/Controllers/Auth/ChangePasswordController.php')))
-            @can('profile_password_edit')
-                <li class="c-sidebar-nav-item">
-                    <a class="c-sidebar-nav-link {{ request()->is('profile/password') || request()->is('profile/password/*') ? 'c-active' : '' }}" href="{{ route('profile.password.edit') }}">
-                        <i class="fa-fw fas fa-key c-sidebar-nav-icon">
-                        </i>
-                        {{ trans('global.change_password') }}
-                    </a>
-                </li>
-            @endcan
-        @endif
-        <li class="c-sidebar-nav-item">
-            <a href="#" class="c-sidebar-nav-link" onclick="event.preventDefault(); document.getElementById('logoutform').submit();">
-                <i class="c-sidebar-nav-icon fas fa-fw fa-sign-out-alt">
+        @can('app_access')
+            <li class="c-sidebar-nav-item">
+                <a href="{{ route("admin.apps.index") }}" class="c-sidebar-nav-link {{ request()->is("admin/apps") || request()->is("admin/apps/*") ? "c-active" : "" }}">
+                    <i class="fa-fw fas fa-cogs c-sidebar-nav-icon">
 
-                </i>
-                {{ trans('global.logout') }}
-            </a>
-        </li>
+                    </i>
+                    {{ trans('cruds.app.title') }}
+                </a>
+            </li>
+        @endcan
+        @can('page_access')
+            <li class="c-sidebar-nav-item">
+                <a href="{{ route("admin.pages.index") }}" class="c-sidebar-nav-link {{ request()->is("admin/pages") || request()->is("admin/pages/*") ? "c-active" : "" }}">
+                    <i class="fa-fw fas fa-cogs c-sidebar-nav-icon">
+
+                    </i>
+                    {{ trans('cruds.page.title') }}
+                </a>
+            </li>
+        @endcan
+        @can('page_layout_access')
+            <li class="c-sidebar-nav-item">
+                <a href="{{ route("admin.page-layouts.index") }}" class="c-sidebar-nav-link {{ request()->is("admin/page-layouts") || request()->is("admin/page-layouts/*") ? "c-active" : "" }}">
+                    <i class="fa-fw fas fa-cogs c-sidebar-nav-icon">
+
+                    </i>
+                    {{ trans('cruds.pageLayout.title') }}
+                </a>
+            </li>
+        @endcan
+        @can('module_access')
+            <li class="c-sidebar-nav-item">
+                <a href="{{ route("admin.modules.index") }}" class="c-sidebar-nav-link {{ request()->is("admin/modules") || request()->is("admin/modules/*") ? "c-active" : "" }}">
+                    <i class="fa-fw fas fa-cogs c-sidebar-nav-icon">
+
+                    </i>
+                    {{ trans('cruds.module.title') }}
+                </a>
+            </li>
+        @endcan
+        @php($unread = \App\Models\QaTopic::unreadCount())
+            <li class="c-sidebar-nav-item">
+                <a href="{{ route("admin.messenger.index") }}" class="{{ request()->is("admin/messenger") || request()->is("admin/messenger/*") ? "c-active" : "" }} c-sidebar-nav-link">
+                    <i class="c-sidebar-nav-icon fa-fw fa fa-envelope">
+
+                    </i>
+                    <span>{{ trans('global.messages') }}</span>
+                    @if($unread > 0)
+                        <strong>( {{ $unread }} )</strong>
+                    @endif
+
+                </a>
+            </li>
+            @if(file_exists(app_path('Http/Controllers/Auth/ChangePasswordController.php')))
+                @can('profile_password_edit')
+                    <li class="c-sidebar-nav-item">
+                        <a class="c-sidebar-nav-link {{ request()->is('profile/password') || request()->is('profile/password/*') ? 'c-active' : '' }}" href="{{ route('profile.password.edit') }}">
+                            <i class="fa-fw fas fa-key c-sidebar-nav-icon">
+                            </i>
+                            {{ trans('global.change_password') }}
+                        </a>
+                    </li>
+                @endcan
+            @endif
+            <li class="c-sidebar-nav-item">
+                <a href="#" class="c-sidebar-nav-link" onclick="event.preventDefault(); document.getElementById('logoutform').submit();">
+                    <i class="c-sidebar-nav-icon fas fa-fw fa-sign-out-alt">
+
+                    </i>
+                    {{ trans('global.logout') }}
+                </a>
+            </li>
     </ul>
 
 </div>
