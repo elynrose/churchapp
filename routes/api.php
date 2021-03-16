@@ -22,4 +22,12 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
 
     // Modules
     Route::apiResource('modules', 'ModulesApiController');
+
+    // Events
+    Route::post('events/media', 'EventsApiController@storeMedia')->name('events.storeMedia');
+    Route::apiResource('events', 'EventsApiController');
+
+    // Blogs
+    Route::post('blogs/media', 'BlogsApiController@storeMedia')->name('blogs.storeMedia');
+    Route::apiResource('blogs', 'BlogsApiController');
 });
