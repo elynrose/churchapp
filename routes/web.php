@@ -35,6 +35,18 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::delete('modules/destroy', 'ModulesController@massDestroy')->name('modules.massDestroy');
     Route::resource('modules', 'ModulesController');
 
+    // Events
+    Route::delete('events/destroy', 'EventsController@massDestroy')->name('events.massDestroy');
+    Route::post('events/media', 'EventsController@storeMedia')->name('events.storeMedia');
+    Route::post('events/ckmedia', 'EventsController@storeCKEditorImages')->name('events.storeCKEditorImages');
+    Route::resource('events', 'EventsController');
+
+    // Blogs
+    Route::delete('blogs/destroy', 'BlogsController@massDestroy')->name('blogs.massDestroy');
+    Route::post('blogs/media', 'BlogsController@storeMedia')->name('blogs.storeMedia');
+    Route::post('blogs/ckmedia', 'BlogsController@storeCKEditorImages')->name('blogs.storeCKEditorImages');
+    Route::resource('blogs', 'BlogsController');
+
     Route::get('messenger', 'MessengerController@index')->name('messenger.index');
     Route::get('messenger/create', 'MessengerController@createTopic')->name('messenger.createTopic');
     Route::post('messenger', 'MessengerController@storeTopic')->name('messenger.storeTopic');
@@ -86,6 +98,18 @@ Route::group(['as' => 'frontend.', 'namespace' => 'Frontend', 'middleware' => ['
     // Modules
     Route::delete('modules/destroy', 'ModulesController@massDestroy')->name('modules.massDestroy');
     Route::resource('modules', 'ModulesController');
+
+    // Events
+    Route::delete('events/destroy', 'EventsController@massDestroy')->name('events.massDestroy');
+    Route::post('events/media', 'EventsController@storeMedia')->name('events.storeMedia');
+    Route::post('events/ckmedia', 'EventsController@storeCKEditorImages')->name('events.storeCKEditorImages');
+    Route::resource('events', 'EventsController');
+
+    // Blogs
+    Route::delete('blogs/destroy', 'BlogsController@massDestroy')->name('blogs.massDestroy');
+    Route::post('blogs/media', 'BlogsController@storeMedia')->name('blogs.storeMedia');
+    Route::post('blogs/ckmedia', 'BlogsController@storeCKEditorImages')->name('blogs.storeCKEditorImages');
+    Route::resource('blogs', 'BlogsController');
 
     Route::get('frontend/profile', 'ProfileController@index')->name('profile.index');
     Route::post('frontend/profile', 'ProfileController@update')->name('profile.update');

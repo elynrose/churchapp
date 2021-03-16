@@ -117,6 +117,16 @@
                                             {{ trans('cruds.module.title') }}
                                         </a>
                                     @endcan
+                                    @can('event_access')
+                                        <a class="dropdown-item" href="{{ route('frontend.events.index') }}">
+                                            {{ trans('cruds.event.title') }}
+                                        </a>
+                                    @endcan
+                                    @can('blog_access')
+                                        <a class="dropdown-item" href="{{ route('frontend.blogs.index') }}">
+                                            {{ trans('cruds.blog.title') }}
+                                        </a>
+                                    @endcan
 
                                     <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">

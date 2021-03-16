@@ -97,6 +97,26 @@
                 </a>
             </li>
         @endcan
+        @can('event_access')
+            <li class="c-sidebar-nav-item">
+                <a href="{{ route("admin.events.index") }}" class="c-sidebar-nav-link {{ request()->is("admin/events") || request()->is("admin/events/*") ? "c-active" : "" }}">
+                    <i class="fa-fw fas fa-cogs c-sidebar-nav-icon">
+
+                    </i>
+                    {{ trans('cruds.event.title') }}
+                </a>
+            </li>
+        @endcan
+        @can('blog_access')
+            <li class="c-sidebar-nav-item">
+                <a href="{{ route("admin.blogs.index") }}" class="c-sidebar-nav-link {{ request()->is("admin/blogs") || request()->is("admin/blogs/*") ? "c-active" : "" }}">
+                    <i class="fa-fw fas fa-cogs c-sidebar-nav-icon">
+
+                    </i>
+                    {{ trans('cruds.blog.title') }}
+                </a>
+            </li>
+        @endcan
         @php($unread = \App\Models\QaTopic::unreadCount())
             <li class="c-sidebar-nav-item">
                 <a href="{{ route("admin.messenger.index") }}" class="{{ request()->is("admin/messenger") || request()->is("admin/messenger/*") ? "c-active" : "" }} c-sidebar-nav-link">
