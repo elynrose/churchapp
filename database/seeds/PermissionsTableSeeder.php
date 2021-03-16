@@ -74,6 +74,86 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'id'    => 17,
+                'title' => 'app_create',
+            ],
+            [
+                'id'    => 18,
+                'title' => 'app_edit',
+            ],
+            [
+                'id'    => 19,
+                'title' => 'app_show',
+            ],
+            [
+                'id'    => 20,
+                'title' => 'app_delete',
+            ],
+            [
+                'id'    => 21,
+                'title' => 'app_access',
+            ],
+            [
+                'id'    => 22,
+                'title' => 'page_create',
+            ],
+            [
+                'id'    => 23,
+                'title' => 'page_edit',
+            ],
+            [
+                'id'    => 24,
+                'title' => 'page_show',
+            ],
+            [
+                'id'    => 25,
+                'title' => 'page_delete',
+            ],
+            [
+                'id'    => 26,
+                'title' => 'page_access',
+            ],
+            [
+                'id'    => 27,
+                'title' => 'page_layout_create',
+            ],
+            [
+                'id'    => 28,
+                'title' => 'page_layout_edit',
+            ],
+            [
+                'id'    => 29,
+                'title' => 'page_layout_show',
+            ],
+            [
+                'id'    => 30,
+                'title' => 'page_layout_delete',
+            ],
+            [
+                'id'    => 31,
+                'title' => 'page_layout_access',
+            ],
+            [
+                'id'    => 32,
+                'title' => 'module_create',
+            ],
+            [
+                'id'    => 33,
+                'title' => 'module_edit',
+            ],
+            [
+                'id'    => 34,
+                'title' => 'module_show',
+            ],
+            [
+                'id'    => 35,
+                'title' => 'module_delete',
+            ],
+            [
+                'id'    => 36,
+                'title' => 'module_access',
+            ],
+            [
+                'id'    => 37,
                 'title' => 'profile_password_edit',
             ],
         ];
