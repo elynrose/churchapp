@@ -97,24 +97,109 @@
                                             {{ trans('cruds.user.title') }}
                                         </a>
                                     @endcan
-                                    @can('app_access')
-                                        <a class="dropdown-item" href="{{ route('frontend.apps.index') }}">
-                                            {{ trans('cruds.app.title') }}
+                                    @can('category_access')
+                                        <a class="dropdown-item ml-3" href="{{ route('frontend.categories.index') }}">
+                                            {{ trans('cruds.category.title') }}
+                                        </a>
+                                    @endcan
+                                    @can('website_setting_access')
+                                        <a class="dropdown-item ml-3" href="{{ route('frontend.website-settings.index') }}">
+                                            {{ trans('cruds.websiteSetting.title') }}
+                                        </a>
+                                    @endcan
+                                    @can('member_access')
+                                        <a class="dropdown-item disabled" href="#">
+                                            {{ trans('cruds.member.title') }}
+                                        </a>
+                                    @endcan
+                                    @can('announcement_access')
+                                        <a class="dropdown-item ml-3" href="{{ route('frontend.announcements.index') }}">
+                                            {{ trans('cruds.announcement.title') }}
+                                        </a>
+                                    @endcan
+                                    @can('qotd_access')
+                                        <a class="dropdown-item ml-3" href="{{ route('frontend.qotds.index') }}">
+                                            {{ trans('cruds.qotd.title') }}
+                                        </a>
+                                    @endcan
+                                    @can('weeks_message_access')
+                                        <a class="dropdown-item ml-3" href="{{ route('frontend.weeks-messages.index') }}">
+                                            {{ trans('cruds.weeksMessage.title') }}
+                                        </a>
+                                    @endcan
+                                    @can('praiseprayer_access')
+                                        <a class="dropdown-item ml-3" href="{{ route('frontend.praiseprayers.index') }}">
+                                            {{ trans('cruds.praiseprayer.title') }}
+                                        </a>
+                                    @endcan
+                                    @can('section_access')
+                                        <a class="dropdown-item ml-3" href="{{ route('frontend.sections.index') }}">
+                                            {{ trans('cruds.section.title') }}
+                                        </a>
+                                    @endcan
+                                    @can('file_access')
+                                        <a class="dropdown-item ml-3" href="{{ route('frontend.files.index') }}">
+                                            {{ trans('cruds.file.title') }}
+                                        </a>
+                                    @endcan
+                                    @can('video_excerpt_access')
+                                        <a class="dropdown-item ml-3" href="{{ route('frontend.video-excerpts.index') }}">
+                                            {{ trans('cruds.videoExcerpt.title') }}
+                                        </a>
+                                    @endcan
+                                    @can('album_access')
+                                        <a class="dropdown-item ml-3" href="{{ route('frontend.albums.index') }}">
+                                            {{ trans('cruds.album.title') }}
+                                        </a>
+                                    @endcan
+                                    @can('photo_access')
+                                        <a class="dropdown-item ml-3" href="{{ route('frontend.photos.index') }}">
+                                            {{ trans('cruds.photo.title') }}
+                                        </a>
+                                    @endcan
+                                    @can('directory_access')
+                                        <a class="dropdown-item ml-3" href="{{ route('frontend.directories.index') }}">
+                                            {{ trans('cruds.directory.title') }}
+                                        </a>
+                                    @endcan
+                                    @can('archive_access')
+                                        <a class="dropdown-item ml-3" href="{{ route('frontend.archives.index') }}">
+                                            {{ trans('cruds.archive.title') }}
+                                        </a>
+                                    @endcan
+                                    @can('uploader_access')
+                                        <a class="dropdown-item ml-3" href="{{ route('frontend.uploaders.index') }}">
+                                            {{ trans('cruds.uploader.title') }}
+                                        </a>
+                                    @endcan
+                                    @can('general_access')
+                                        <a class="dropdown-item disabled" href="#">
+                                            {{ trans('cruds.general.title') }}
+                                        </a>
+                                    @endcan
+                                    @can('homepage_carousel_access')
+                                        <a class="dropdown-item ml-3" href="{{ route('frontend.homepage-carousels.index') }}">
+                                            {{ trans('cruds.homepageCarousel.title') }}
                                         </a>
                                     @endcan
                                     @can('page_access')
-                                        <a class="dropdown-item" href="{{ route('frontend.pages.index') }}">
+                                        <a class="dropdown-item ml-3" href="{{ route('frontend.pages.index') }}">
                                             {{ trans('cruds.page.title') }}
                                         </a>
                                     @endcan
-                                    @can('page_layout_access')
-                                        <a class="dropdown-item" href="{{ route('frontend.page-layouts.index') }}">
-                                            {{ trans('cruds.pageLayout.title') }}
+                                    @can('resource_access')
+                                        <a class="dropdown-item ml-3" href="{{ route('frontend.resources.index') }}">
+                                            {{ trans('cruds.resource.title') }}
                                         </a>
                                     @endcan
-                                    @can('module_access')
-                                        <a class="dropdown-item" href="{{ route('frontend.modules.index') }}">
-                                            {{ trans('cruds.module.title') }}
+                                    @can('contact_access')
+                                        <a class="dropdown-item ml-3" href="{{ route('frontend.contacts.index') }}">
+                                            {{ trans('cruds.contact.title') }}
+                                        </a>
+                                    @endcan
+                                    @can('sister_church_access')
+                                        <a class="dropdown-item ml-3" href="{{ route('frontend.sister-churches.index') }}">
+                                            {{ trans('cruds.sisterChurch.title') }}
                                         </a>
                                     @endcan
 

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
@@ -148,13 +149,14 @@ class MessengerController extends Controller
 
         foreach ($topics as $topic) {
             foreach ($topic->messages as $message) {
-                if ($message->sender_id !== Auth::id()
+                if (
+                    $message->sender_id !== Auth::id()
                     && $message->read_at === null
                 ) {
                     if ($topic->creator_id !== Auth::id()) {
-                        $inboxUnreadCount++;
+                        ++$inboxUnreadCount;
                     } else {
-                        $outboxUnreadCount++;
+                        ++$outboxUnreadCount;
                     }
                 }
             }

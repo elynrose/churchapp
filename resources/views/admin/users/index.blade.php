@@ -26,19 +26,37 @@
                             {{ trans('cruds.user.fields.id') }}
                         </th>
                         <th>
-                            {{ trans('cruds.user.fields.name') }}
-                        </th>
-                        <th>
                             {{ trans('cruds.user.fields.email') }}
                         </th>
                         <th>
-                            {{ trans('cruds.user.fields.email_verified_at') }}
+                            {{ trans('cruds.user.fields.name') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.user.fields.country') }}
                         </th>
                         <th>
                             {{ trans('cruds.user.fields.approved') }}
                         </th>
                         <th>
+                            {{ trans('cruds.user.fields.verified') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.user.fields.church') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.user.fields.pastor_name') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.user.fields.language') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.user.fields.email_verified_at') }}
+                        </th>
+                        <th>
                             {{ trans('cruds.user.fields.roles') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.user.fields.ip_address') }}
                         </th>
                         <th>
                             &nbsp;
@@ -55,22 +73,41 @@
                                 {{ $user->id ?? '' }}
                             </td>
                             <td>
-                                {{ $user->name ?? '' }}
-                            </td>
-                            <td>
                                 {{ $user->email ?? '' }}
                             </td>
                             <td>
-                                {{ $user->email_verified_at ?? '' }}
+                                {{ $user->name ?? '' }}
+                            </td>
+                            <td>
+                                {{ App\Models\User::COUNTRY_SELECT[$user->country] ?? '' }}
                             </td>
                             <td>
                                 <span style="display:none">{{ $user->approved ?? '' }}</span>
                                 <input type="checkbox" disabled="disabled" {{ $user->approved ? 'checked' : '' }}>
                             </td>
                             <td>
+                                <span style="display:none">{{ $user->verified ?? '' }}</span>
+                                <input type="checkbox" disabled="disabled" {{ $user->verified ? 'checked' : '' }}>
+                            </td>
+                            <td>
+                                {{ $user->church ?? '' }}
+                            </td>
+                            <td>
+                                {{ $user->pastor_name ?? '' }}
+                            </td>
+                            <td>
+                                {{ App\Models\User::LANGUAGE_SELECT[$user->language] ?? '' }}
+                            </td>
+                            <td>
+                                {{ $user->email_verified_at ?? '' }}
+                            </td>
+                            <td>
                                 @foreach($user->roles as $key => $item)
                                     <span class="badge badge-info">{{ $item->title }}</span>
                                 @endforeach
+                            </td>
+                            <td>
+                                {{ $user->ip_address ?? '' }}
                             </td>
                             <td>
                                 @can('user_show')

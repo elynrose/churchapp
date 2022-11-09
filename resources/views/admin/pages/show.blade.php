@@ -25,20 +25,26 @@
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.page.fields.app') }}
+                            {{ trans('cruds.page.fields.page_title') }}
                         </th>
                         <td>
-                            @foreach($page->apps as $key => $app)
-                                <span class="label label-info">{{ $app->name }}</span>
-                            @endforeach
+                            {{ $page->page_title }}
                         </td>
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.page.fields.name') }}
+                            {{ trans('cruds.page.fields.slug') }}
                         </th>
                         <td>
-                            {{ $page->name }}
+                            {{ $page->slug }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.page.fields.content') }}
+                        </th>
+                        <td>
+                            {!! $page->content !!}
                         </td>
                     </tr>
                     <tr>
@@ -55,10 +61,22 @@
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.page.fields.published') }}
+                            {{ trans('cruds.page.fields.thumb_image') }}
                         </th>
                         <td>
-                            <input type="checkbox" disabled="disabled" {{ $page->published ? 'checked' : '' }}>
+                            @foreach($page->thumb_image as $key => $media)
+                                <a href="{{ $media->getUrl() }}" target="_blank" style="display: inline-block">
+                                    <img src="{{ $media->getUrl('thumb') }}">
+                                </a>
+                            @endforeach
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.page.fields.active') }}
+                        </th>
+                        <td>
+                            <input type="checkbox" disabled="disabled" {{ $page->active ? 'checked' : '' }}>
                         </td>
                     </tr>
                 </tbody>
@@ -72,22 +90,6 @@
     </div>
 </div>
 
-<div class="card">
-    <div class="card-header">
-        {{ trans('global.relatedData') }}
-    </div>
-    <ul class="nav nav-tabs" role="tablist" id="relationship-tabs">
-        <li class="nav-item">
-            <a class="nav-link" href="#page_page_layouts" role="tab" data-toggle="tab">
-                {{ trans('cruds.pageLayout.title') }}
-            </a>
-        </li>
-    </ul>
-    <div class="tab-content">
-        <div class="tab-pane" role="tabpanel" id="page_page_layouts">
-            @includeIf('admin.pages.relationships.pagePageLayouts', ['pageLayouts' => $page->pagePageLayouts])
-        </div>
-    </div>
-</div>
+
 
 @endsection

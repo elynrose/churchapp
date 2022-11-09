@@ -6,7 +6,7 @@ $(document).ready(function () {
   })
 
   $('.date').datetimepicker({
-    format: 'YYYY-MM-DD',
+    format: 'MM/DD/YYYY',
     locale: 'en',
     icons: {
       up: 'fas fa-chevron-up',
@@ -17,7 +17,7 @@ $(document).ready(function () {
   })
 
   $('.datetime').datetimepicker({
-    format: 'YYYY-MM-DD HH:mm:ss',
+    format: 'MM/DD/YYYY HH:mm:ss',
     locale: 'en',
     sideBySide: true,
     icons: {
@@ -63,9 +63,12 @@ $(document).ready(function () {
     }
   })
 
-$('button.sidebar-toggler').click(function () {
-    setTimeout(function() {
+  $('.c-header-toggler.mfs-3.d-md-down-none').click(function (e) {
+    $('#sidebar').toggleClass('c-sidebar-lg-show');
+
+    setTimeout(function () {
       $($.fn.dataTable.tables(true)).DataTable().columns.adjust();
-    }, 275);
-  })
+    }, 400);
+  });
+
 })

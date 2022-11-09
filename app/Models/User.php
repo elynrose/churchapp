@@ -2,20 +2,33 @@
 
 namespace App\Models;
 
+use \DateTimeInterface;
 use App\Notifications\VerifyUserNotification;
 use Carbon\Carbon;
 use Hash;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
-use \DateTimeInterface;
 
 class User extends Authenticatable
 {
-    use SoftDeletes, Notifiable;
+    use SoftDeletes;
+    use Notifiable;
+    use HasFactory;
+
+    public const COUNTRY_SELECT = [
+        'United States' => 'United States',
+    ];
+
+    public const LANGUAGE_SELECT = [
+        'english' => 'English',
+        'spanish' => 'Spanish',
+        'french'  => 'French',
+    ];
 
     public $table = 'users';
 
@@ -25,6 +38,7 @@ class User extends Authenticatable
     ];
 
     protected $dates = [
+        'verified_at',
         'email_verified_at',
         'created_at',
         'updated_at',
@@ -32,20 +46,53 @@ class User extends Authenticatable
     ];
 
     protected $fillable = [
-        'name',
         'email',
-        'email_verified_at',
         'password',
+        'name',
+        'country',
         'approved',
+        'verified',
+        'verified_at',
+        'verification_token',
+        'church',
+        'pastor_name',
+        'language',
+        'email_verified_at',
         'remember_token',
+        'ip_address',
         'created_at',
         'updated_at',
         'deleted_at',
     ];
 
-    protected function serializeDate(DateTimeInterface $date)
+    public function __construct(array $attributes = [])
     {
-        return $date->format('Y-m-d H:i:s');
+        parent::__construct($attributes);
+        self::created(function (User $user) {
+            if (auth()->check()) {
+                $user->verified = 1;
+                $user->verified_at = Carbon::now()->format(config('panel.date_format') . ' ' . config('panel.time_format'));
+                $user->save();
+            } elseif (!$user->verification_token) {
+                $token = Str::random(64);
+                $usedToken = User::where('verification_token', $token)->first();
+
+                while ($usedToken) {
+                    $token = Str::random(64);
+                    $usedToken = User::where('verification_token', $token)->first();
+                }
+
+                $user->verification_token = $token;
+                $user->save();
+
+                $registrationRole = config('panel.registration_default_role');
+                if (!$user->roles()->get()->contains($registrationRole)) {
+                    $user->roles()->attach($registrationRole);
+                }
+
+                $user->notify(new VerifyUserNotification($user));
+            }
+        });
     }
 
     public function getIsAdminAttribute()
@@ -53,26 +100,10 @@ class User extends Authenticatable
         return $this->roles()->where('id', 1)->exists();
     }
 
-    public function __construct(array $attributes = [])
+    public static function boot()
     {
-        parent::__construct($attributes);
-        self::created(function (User $user) {
-            $registrationRole = config('panel.registration_default_role');
-
-            if (!$user->roles()->get()->contains($registrationRole)) {
-                $user->roles()->attach($registrationRole);
-            }
-        });
-    }
-
-    public function getEmailVerifiedAtAttribute($value)
-    {
-        return $value ? Carbon::createFromFormat('Y-m-d H:i:s', $value)->format(config('panel.date_format') . ' ' . config('panel.time_format')) : null;
-    }
-
-    public function setEmailVerifiedAtAttribute($value)
-    {
-        $this->attributes['email_verified_at'] = $value ? Carbon::createFromFormat(config('panel.date_format') . ' ' . config('panel.time_format'), $value)->format('Y-m-d H:i:s') : null;
+        parent::boot();
+        User::observe(new \App\Observers\UserActionObserver());
     }
 
     public function setPasswordAttribute($input)
@@ -87,8 +118,33 @@ class User extends Authenticatable
         $this->notify(new ResetPassword($token));
     }
 
+    public function getVerifiedAtAttribute($value)
+    {
+        return $value ? Carbon::createFromFormat('Y-m-d H:i:s', $value)->format(config('panel.date_format') . ' ' . config('panel.time_format')) : null;
+    }
+
+    public function setVerifiedAtAttribute($value)
+    {
+        $this->attributes['verified_at'] = $value ? Carbon::createFromFormat(config('panel.date_format') . ' ' . config('panel.time_format'), $value)->format('Y-m-d H:i:s') : null;
+    }
+
+    public function getEmailVerifiedAtAttribute($value)
+    {
+        return $value ? Carbon::createFromFormat('Y-m-d H:i:s', $value)->format(config('panel.date_format') . ' ' . config('panel.time_format')) : null;
+    }
+
+    public function setEmailVerifiedAtAttribute($value)
+    {
+        $this->attributes['email_verified_at'] = $value ? Carbon::createFromFormat(config('panel.date_format') . ' ' . config('panel.time_format'), $value)->format('Y-m-d H:i:s') : null;
+    }
+
     public function roles()
     {
         return $this->belongsToMany(Role::class);
+    }
+
+    protected function serializeDate(DateTimeInterface $date)
+    {
+        return $date->format('Y-m-d H:i:s');
     }
 }

@@ -26,16 +26,13 @@
                                         {{ trans('cruds.page.fields.id') }}
                                     </th>
                                     <th>
-                                        {{ trans('cruds.page.fields.app') }}
+                                        {{ trans('cruds.page.fields.page_title') }}
                                     </th>
                                     <th>
-                                        {{ trans('cruds.page.fields.name') }}
+                                        {{ trans('cruds.page.fields.slug') }}
                                     </th>
                                     <th>
-                                        {{ trans('cruds.page.fields.cover_image') }}
-                                    </th>
-                                    <th>
-                                        {{ trans('cruds.page.fields.published') }}
+                                        {{ trans('cruds.page.fields.active') }}
                                     </th>
                                     <th>
                                         &nbsp;
@@ -49,23 +46,14 @@
                                             {{ $page->id ?? '' }}
                                         </td>
                                         <td>
-                                            @foreach($page->apps as $key => $item)
-                                                <span>{{ $item->name }}</span>
-                                            @endforeach
+                                            {{ $page->page_title ?? '' }}
                                         </td>
                                         <td>
-                                            {{ $page->name ?? '' }}
+                                            {{ $page->slug ?? '' }}
                                         </td>
                                         <td>
-                                            @if($page->cover_image)
-                                                <a href="{{ $page->cover_image->getUrl() }}" target="_blank" style="display: inline-block">
-                                                    <img src="{{ $page->cover_image->getUrl('thumb') }}">
-                                                </a>
-                                            @endif
-                                        </td>
-                                        <td>
-                                            <span style="display:none">{{ $page->published ?? '' }}</span>
-                                            <input type="checkbox" disabled="disabled" {{ $page->published ? 'checked' : '' }}>
+                                            <span style="display:none">{{ $page->active ?? '' }}</span>
+                                            <input type="checkbox" disabled="disabled" {{ $page->active ? 'checked' : '' }}>
                                         </td>
                                         <td>
                                             @can('page_show')
