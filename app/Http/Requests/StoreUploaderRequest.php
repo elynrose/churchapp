@@ -1,0 +1,47 @@
+<?php
+
+namespace App\Http\Requests;
+
+use App\Models\Uploader;
+use Gate;
+use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Response;
+
+class StoreUploaderRequest extends FormRequest
+{
+    public function authorize()
+    {
+        return Gate::allows('uploader_create');
+    }
+
+    public function rules()
+    {
+        return [
+            'title' => [
+                'string',
+                'required',
+            ],
+            'date_preached' => [
+                'required',
+                'date_format:' . config('panel.date_format'),
+            ],
+            'preached_by' => [
+                'string',
+                'required',
+            ],
+            'location' => [
+                'string',
+                'nullable',
+            ],
+            'file_code' => [
+                'string',
+                'required',
+                'unique:uploaders',
+            ],
+            'coconut_job_code' => [
+                'string',
+                'nullable',
+            ],
+        ];
+    }
+}

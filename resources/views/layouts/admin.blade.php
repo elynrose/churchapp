@@ -35,7 +35,7 @@
 
             <a class="c-header-brand d-lg-none" href="#">{{ trans('panel.site_title') }}</a>
 
-            <button class="c-header-toggler c-class-toggler mfs-3 d-md-down-none" type="button" data-target="#sidebar" data-class="c-sidebar-lg-show" responsive="true">
+            <button class="c-header-toggler mfs-3 d-md-down-none" type="button" responsive="true">
                 <i class="fas fa-fw fa-bars"></i>
             </button>
 
@@ -123,7 +123,9 @@
   let selectNoneButtonTrans = '{{ trans('global.deselect_all') }}'
 
   let languages = {
-    'en': 'https://cdn.datatables.net/plug-ins/1.10.19/i18n/English.json'
+    'en': 'https://cdn.datatables.net/plug-ins/1.10.19/i18n/English.json',
+        'fr': 'https://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/French.json',
+        'es': 'https://cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json'
   };
 
   $.extend(true, $.fn.dataTable.Buttons.defaults.dom.button, { className: 'btn' })

@@ -7,11 +7,10 @@ use App\Http\Controllers\Traits\MediaUploadingTrait;
 use App\Http\Requests\MassDestroyPageRequest;
 use App\Http\Requests\StorePageRequest;
 use App\Http\Requests\UpdatePageRequest;
-use App\Models\App;
 use App\Models\Page;
 use Gate;
 use Illuminate\Http\Request;
-use Spatie\MediaLibrary\Models\Media;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Symfony\Component\HttpFoundation\Response;
 
 class PagesController extends Controller
@@ -22,7 +21,7 @@ class PagesController extends Controller
     {
         abort_if(Gate::denies('page_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $pages = Page::with(['apps', 'media'])->get();
+        $pages = Page::with(['media'])->get();
 
         return view('frontend.pages.index', compact('pages'));
     }
@@ -31,18 +30,19 @@ class PagesController extends Controller
     {
         abort_if(Gate::denies('page_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $apps = App::all()->pluck('name', 'id');
-
-        return view('frontend.pages.create', compact('apps'));
+        return view('frontend.pages.create');
     }
 
     public function store(StorePageRequest $request)
     {
         $page = Page::create($request->all());
-        $page->apps()->sync($request->input('apps', []));
 
         if ($request->input('cover_image', false)) {
             $page->addMedia(storage_path('tmp/uploads/' . basename($request->input('cover_image'))))->toMediaCollection('cover_image');
+        }
+
+        foreach ($request->input('thumb_image', []) as $file) {
+            $page->addMedia(storage_path('tmp/uploads/' . basename($file)))->toMediaCollection('thumb_image');
         }
 
         if ($media = $request->input('ck-media', false)) {
@@ -56,28 +56,36 @@ class PagesController extends Controller
     {
         abort_if(Gate::denies('page_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $apps = App::all()->pluck('name', 'id');
-
-        $page->load('apps');
-
-        return view('frontend.pages.edit', compact('apps', 'page'));
+        return view('frontend.pages.edit', compact('page'));
     }
 
     public function update(UpdatePageRequest $request, Page $page)
     {
         $page->update($request->all());
-        $page->apps()->sync($request->input('apps', []));
 
         if ($request->input('cover_image', false)) {
             if (!$page->cover_image || $request->input('cover_image') !== $page->cover_image->file_name) {
                 if ($page->cover_image) {
                     $page->cover_image->delete();
                 }
-
                 $page->addMedia(storage_path('tmp/uploads/' . basename($request->input('cover_image'))))->toMediaCollection('cover_image');
             }
         } elseif ($page->cover_image) {
             $page->cover_image->delete();
+        }
+
+        if (count($page->thumb_image) > 0) {
+            foreach ($page->thumb_image as $media) {
+                if (!in_array($media->file_name, $request->input('thumb_image', []))) {
+                    $media->delete();
+                }
+            }
+        }
+        $media = $page->thumb_image->pluck('file_name')->toArray();
+        foreach ($request->input('thumb_image', []) as $file) {
+            if (count($media) === 0 || !in_array($file, $media)) {
+                $page->addMedia(storage_path('tmp/uploads/' . basename($file)))->toMediaCollection('thumb_image');
+            }
         }
 
         return redirect()->route('frontend.pages.index');
@@ -86,8 +94,6 @@ class PagesController extends Controller
     public function show(Page $page)
     {
         abort_if(Gate::denies('page_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $page->load('apps', 'pagePageLayouts');
 
         return view('frontend.pages.show', compact('page'));
     }

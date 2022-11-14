@@ -17,19 +17,23 @@ class UpdatePageRequest extends FormRequest
     public function rules()
     {
         return [
-            'apps.*'    => [
-                'integer',
-            ],
-            'apps'      => [
-                'required',
-                'array',
-            ],
-            'name'      => [
+            'page_title' => [
                 'string',
                 'required',
             ],
-            'published' => [
+            'content' => [
                 'required',
+            ],
+            'slug' => [
+                'string',
+                'required',
+                'unique:pages,slug,' . request()->route('page')->id,
+            ],
+            'cover_image' => [
+                'required',
+            ],
+            'thumb_image' => [
+                'array',
             ],
         ];
     }

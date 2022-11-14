@@ -25,14 +25,6 @@
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.user.fields.name') }}
-                        </th>
-                        <td>
-                            {{ $user->name }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
                             {{ trans('cruds.user.fields.email') }}
                         </th>
                         <td>
@@ -41,10 +33,18 @@
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.user.fields.email_verified_at') }}
+                            {{ trans('cruds.user.fields.name') }}
                         </th>
                         <td>
-                            {{ $user->email_verified_at }}
+                            {{ $user->name }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.user.fields.country') }}
+                        </th>
+                        <td>
+                            {{ App\Models\User::COUNTRY_SELECT[$user->country] ?? '' }}
                         </td>
                     </tr>
                     <tr>
@@ -57,12 +57,60 @@
                     </tr>
                     <tr>
                         <th>
+                            {{ trans('cruds.user.fields.verified') }}
+                        </th>
+                        <td>
+                            <input type="checkbox" disabled="disabled" {{ $user->verified ? 'checked' : '' }}>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.user.fields.church') }}
+                        </th>
+                        <td>
+                            {{ $user->church }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.user.fields.pastor_name') }}
+                        </th>
+                        <td>
+                            {{ $user->pastor_name }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.user.fields.language') }}
+                        </th>
+                        <td>
+                            {{ App\Models\User::LANGUAGE_SELECT[$user->language] ?? '' }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.user.fields.email_verified_at') }}
+                        </th>
+                        <td>
+                            {{ $user->email_verified_at }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
                             {{ trans('cruds.user.fields.roles') }}
                         </th>
                         <td>
                             @foreach($user->roles as $key => $roles)
                                 <span class="label label-info">{{ $roles->title }}</span>
                             @endforeach
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.user.fields.ip_address') }}
+                        </th>
+                        <td>
+                            {{ $user->ip_address }}
                         </td>
                     </tr>
                 </tbody>

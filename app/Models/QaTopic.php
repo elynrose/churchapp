@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 use Auth;
@@ -11,6 +12,11 @@ class QaTopic extends Model
         'creator_id',
         'receiver_id',
         'sent_at',
+    ];
+
+    protected $casts = [
+        'creator_id'  => 'integer',
+        'receiver_id' => 'integer',
     ];
 
     public function messages()
@@ -28,7 +34,7 @@ class QaTopic extends Model
     {
         return $this->creator_id === Auth::user()->id
         ? User::withTrashed()->find($this->receiver_id)
-        : Auth::user();
+        : User::withTrashed()->find($this->creator_id);
     }
 
     public static function unreadCount()
@@ -47,7 +53,7 @@ class QaTopic extends Model
         foreach ($topics as $topic) {
             foreach ($topic->messages as $message) {
                 if ($message->sender_id !== Auth::user()->id && $message->read_at === null) {
-                    $unreadCount++;
+                    ++$unreadCount;
                 }
             }
         }

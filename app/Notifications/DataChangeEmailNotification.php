@@ -28,7 +28,7 @@ class DataChangeEmailNotification extends Notification
 
     public function getMessage()
     {
-        return (new MailMessage)
+        return (new MailMessage())
             ->subject(config('app.name') . ': entry ' . $this->data['action'] . ' in ' . $this->data['model_name'])
             ->greeting('Hi,')
             ->line('we would like to inform you that entry has been ' . $this->data['action'] . ' in ' . $this->data['model_name'])

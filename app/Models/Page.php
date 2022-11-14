@@ -2,21 +2,25 @@
 
 namespace App\Models;
 
+use \DateTimeInterface;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Spatie\MediaLibrary\HasMedia\HasMedia;
-use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
-use Spatie\MediaLibrary\Models\Media;
-use \DateTimeInterface;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class Page extends Model implements HasMedia
 {
-    use SoftDeletes, HasMediaTrait;
+    use SoftDeletes;
+    use InteractsWithMedia;
+    use HasFactory;
 
     public $table = 'pages';
 
     protected $appends = [
         'cover_image',
+        'thumb_image',
     ];
 
     protected $dates = [
@@ -26,38 +30,24 @@ class Page extends Model implements HasMedia
     ];
 
     protected $fillable = [
-        'name',
-        'published',
+        'page_title',
+        'content',
+        'slug',
+        'active',
         'created_at',
         'updated_at',
         'deleted_at',
     ];
 
-    protected function serializeDate(DateTimeInterface $date)
-    {
-        return $date->format('Y-m-d H:i:s');
-    }
-
-    public function registerMediaConversions(Media $media = null)
+    public function registerMediaConversions(Media $media = null): void
     {
         $this->addMediaConversion('thumb')->fit('crop', 50, 50);
         $this->addMediaConversion('preview')->fit('crop', 120, 120);
     }
 
-    public function pagePageLayouts()
-    {
-        return $this->hasMany(PageLayout::class, 'page_id', 'id');
-    }
-
-    public function apps()
-    {
-        return $this->belongsToMany(App::class);
-    }
-
     public function getCoverImageAttribute()
     {
         $file = $this->getMedia('cover_image')->last();
-
         if ($file) {
             $file->url       = $file->getUrl();
             $file->thumbnail = $file->getUrl('thumb');
@@ -65,5 +55,22 @@ class Page extends Model implements HasMedia
         }
 
         return $file;
+    }
+
+    public function getThumbImageAttribute()
+    {
+        $files = $this->getMedia('thumb_image');
+        $files->each(function ($item) {
+            $item->url = $item->getUrl();
+            $item->thumbnail = $item->getUrl('thumb');
+            $item->preview = $item->getUrl('preview');
+        });
+
+        return $files;
+    }
+
+    protected function serializeDate(DateTimeInterface $date)
+    {
+        return $date->format('Y-m-d H:i:s');
     }
 }
